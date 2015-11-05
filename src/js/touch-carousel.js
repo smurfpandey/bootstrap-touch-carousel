@@ -96,9 +96,14 @@
       index = Math.max(0, Math.min(index, this.pane_count-1));
       var $next = this.$items.eq( index ).toggleClass('active');
       this.current_pane = index;
+      var slidEvent = $.Event('slid.bs.carousel', {
+        relatedTarget: $next[0]
+      }); // yes, "slid"
 
       var offset = -((100/this.pane_count) * this.current_pane);
       this._setContainerOffset(offset, true, index);
+
+      this.$element.trigger(slidEvent);
 
       return this;
   }
@@ -211,10 +216,6 @@
       this.$indicators.find('.active').removeClass('active');
       this.$indicators.children().eq(index).addClass('active');
     }
-
-    this.$element.trigger('slid.bs.carousel');
-
-
     return this;
   }
 
